@@ -1,1 +1,37 @@
-Project
+# Social Network Analysis Project
+
+## Project Overview
+
+This repository contains the implementation of an algorithm for analyzing real-world social networks, developed as part of two university courses:
+- **Graph Theory and Networks**  
+- **Good Programming Practices**
+
+The main objective is to analyze the structure of social networks using graph theory concepts while ensuring that good software development practices, such as clean code, testing, and documentation, are followed.
+
+## Table of Contents
+- [Project Overview](#project-overview)
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+- [File Structure](#file-structure)
+- [Contributing](#contributing)
+- [License](#license)
+- [Acknowledgements](#acknowledgements)
+
+## Features
+
+- **Graph Algorithms**: Analyze networks using graph theory techniques (e.g., shortest paths, clustering coefficients, centrality measures).
+- **Modularity**: Code is organized into small, reusable modules following SOLID principles.
+- **Code Quality**: The project adheres to good programming practices, including proper variable naming, comments, and clean, maintainable code.
+- **Unit Testing**: A suite of unit tests is included to ensure robustness.
+- **Documentation**: Each function and module is documented with detailed descriptions.
+- **Social Network Dataset**: Works with real-world social network datasets for comprehensive analysis.
+
+## Installation
+
+To use this project, clone the repository and install the required dependencies:
+
+```bash
+git clone https://github.com/username/social-network-analysis.git
+cd social-network-analysis
+pip install -r requirements.txt
