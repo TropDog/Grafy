@@ -1,12 +1,33 @@
-class Data:
-    def __init__(self, path: str):
-        self.path = path
-        self.data = self.read_csv()
-   
-    def read_csv(self):
-        with open(self.path, 'r', encoding='utf-8') as file:
-            final_data = [relationship.strip().split(" ") for relationship in file]
-        return final_data
-            
-d1 = Data(r"C:\Studia\Zima2\DPP\Projekt\Data\facebook_combined.txt")
-print(len(d1.data))
+import json
+import csv
+
+class DataLoader:
+    def __init__(self, file_path):
+        self.file_path = file_path
+
+    def load_csv(self):
+        with open(self.file_path, 'r') as file:
+            reader = csv.DictReader(file, delimiter=' ')
+            return [row for row in reader]
+    
+    def convert_to_json(self, data):
+        return json.dumps(data)
+    
+    def transform_data(self, data):
+        nodes = []
+        edges = []
+
+        #unikalne wystapienia (edges)
+        unique_users = set()
+        for entry in data:
+            unique_users.add(entry["user"])
+            edges.append({"user": entry["user"], "friend": entry["friend"]})
+
+        #unikalne wystapienia (nodes)
+        for user in unique_users:
+            nodes.append({"user": user})
+
+        return {
+            "nodes": nodes,
+            "edges": edges
+        }
