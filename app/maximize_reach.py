@@ -25,7 +25,7 @@ def calculate_total_reach_bfs(graph, author, tagged):
     tagged_friends = set(graph.neighbors(tagged))
 
     # Include both the author and the tagged person in the reach
-    total_reach = author_friends | tagged_friends | {author, tagged}
+    total_reach = (author_friends | tagged_friends) - {author}
     return len(total_reach), total_reach
 
 def find_best_tag_bfs(graph, user):

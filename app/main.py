@@ -10,7 +10,7 @@ import networkx as nx
 from data_loader import DataLoader
 from show_friends import display_user_friends
 from maximize_reach import find_best_tag_bfs, visualize_reach
-from shortest_path_users import build_adjacency_list, find_shortest_path
+from shortest_path import build_adjacency_list, find_shortest_path
 
 def main():
     """
