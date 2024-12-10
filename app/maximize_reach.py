@@ -1,12 +1,24 @@
+"""
+Module for calculating and visualizing the reach of a user in a social graph.
+
+This module includes functions to:
+1. Calculate the total reach of a post when a specific user is tagged.
+2. Find the best person to tag to maximize reach.
+3. Visualize the subgraph of users impacted by a post.
+"""
+
 import networkx as nx
 import matplotlib.pyplot as plt
-from data_loader import DataLoader
-
 
 def calculate_total_reach_bfs(graph, author, tagged):
     """
     Calculates the reach using BFS when the author tags a specific person.
     Combines the reach of the author and tagged person, counting unique nodes only.
+
+    :param graph: NetworkX graph object representing the social network.
+    :param author: ID of the author making the post.
+    :param tagged: ID of the user tagged in the post.
+    :return: A tuple containing the size of the total reach and the set of reached nodes.
     """
     # Get friends of the author and tagged person
     author_friends = set(graph.neighbors(author))
@@ -16,10 +28,14 @@ def calculate_total_reach_bfs(graph, author, tagged):
     total_reach = author_friends | tagged_friends | {author, tagged}
     return len(total_reach), total_reach
 
-
 def find_best_tag_bfs(graph, user):
     """
     Finds the best person to tag to maximize reach using BFS.
+
+    :param graph: NetworkX graph object representing the social network.
+    :param user: ID of the user posting.
+    :return: A tuple containing the best user to tag, the size of the maximum reach,
+             and the set of reached nodes.
     """
     max_reach = 0
     best_tagged = None
@@ -35,11 +51,15 @@ def find_best_tag_bfs(graph, user):
 
     return best_tagged, max_reach, best_reach_set
 
-
 def visualize_reach(graph, user, tagged, reach_set):
     """
     Visualizes the subgraph containing the author, the tagged person,
     and the entire reach of the post.
+
+    :param graph: NetworkX graph object representing the social network.
+    :param user: ID of the user posting.
+    :param tagged: ID of the user tagged in the post.
+    :param reach_set: Set of IDs of users impacted by the post.
     """
     subgraph = graph.subgraph(reach_set)
     pos = nx.spring_layout(subgraph)
@@ -51,51 +71,3 @@ def visualize_reach(graph, user, tagged, reach_set):
     plt.legend()
     plt.title(f"Reach of post by {user} tagging {tagged}")
     plt.show()
-
-
-# Main part of the program
-if __name__ == "__main__":
-    # Load data using DataLoader
-    file_path = "../data/facebook_combined.txt"
-    loader = DataLoader(file_path)
-
-    try:
-        data = loader.load_csv()
-        print("Data successfully loaded!")
-    except FileNotFoundError:
-        print(f"File not found: {file_path}")
-        raise
-
-    try:
-        transformed_data = loader.transform_data(data)
-        print("Data transformation completed successfully!")
-    except Exception as e:
-        print(f"Error during data transformation: {e}")
-        raise
-
-    # Build the graph
-    print("Building the graph...")
-    G = nx.Graph()
-    for edge in transformed_data["edges"]:
-        G.add_edge(edge["user"], edge["friend"])
-
-    # Interactive part
-    while True:
-        user = input("Enter the user ID (or type 'exit' to quit): ")
-        if user.lower() == 'exit':
-            break
-
-        if user not in G:
-            print(f"User {user} not found in the network.")
-            continue
-
-        best_tagged, max_reach, reach_set = find_best_tag_bfs(G, user)
-        if best_tagged:
-            print(f"Best person to tag: {best_tagged}")
-            print(f"Maximum total reach: {max_reach}")
-            print(f"People who see the post: {', '.join(map(str, reach_set))}")
-
-            # Optional visualization
-            visualize_reach(G, user, best_tagged, reach_set)
-        else:
-            print(f"User {user} has no friends to tag.")
