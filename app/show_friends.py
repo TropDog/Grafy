@@ -1,4 +1,5 @@
 import networkx as nx
+import matplotlib.pyplot as plt
 from data_loader import DataLoader
 
 
@@ -6,6 +7,7 @@ from data_loader import DataLoader
 def display_user_friends(G, user):
     """
     Displays the number of friends and all friends of the given user.
+    Additionally, visualizes the user and their friends as a graph.
     """
     if user not in G:
         print(f"User {user} not found in the network.")
@@ -13,9 +15,34 @@ def display_user_friends(G, user):
 
     friends = list(G.neighbors(user))
     if friends:
-        print(f"User {user} has {len(friends)} friends: {', '.join(friends)}")
+        print(f"User {user} has {len(friends)} friends: {', '.join(map(str, friends))}")
+
+        # Visualize the graph
+        visualize_friends_graph(G, user, friends)
     else:
         print(f"User {user} has no friends.")
+
+
+# Function to visualize the user and their friends as a graph
+def visualize_friends_graph(G, user, friends):
+    """
+    Visualizes the user and their friends as a subgraph.
+    """
+    subgraph = nx.Graph()
+    subgraph.add_node(user, color='blue')  # Add the main user with a distinct color
+    for friend in friends:
+        subgraph.add_node(friend, color='green')  # Add friends
+        subgraph.add_edge(user, friend)  # Add edges
+
+    # Set up colors
+    colors = [data['color'] for _, data in subgraph.nodes(data=True)]
+
+    # Draw the graph
+    plt.figure(figsize=(8, 6))
+    pos = nx.spring_layout(subgraph)  # Position nodes for visualization
+    nx.draw(subgraph, pos, with_labels=True, node_color=colors, node_size=500, font_size=10, font_color="white")
+    plt.title(f"User {user} and their friends", fontsize=14)
+    plt.show()
 
 
 # Main part of the program

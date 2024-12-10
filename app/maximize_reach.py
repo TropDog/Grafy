@@ -1,35 +1,33 @@
 import networkx as nx
-from data_loader import DataLoader
 import matplotlib.pyplot as plt
+from data_loader import DataLoader
 
 
-# Function to calculate total reach of a post
-def calculate_total_reach(G, author, tagged):
+def calculate_total_reach_bfs(graph, author, tagged):
     """
-    Calculates the number of unique people who will see the post
-    when the author tags a specific person. Mutual friends are counted only once.
+    Calculates the reach using BFS when the author tags a specific person.
+    Combines the reach of the author and tagged person, counting unique nodes only.
     """
-    author_friends = set(G.neighbors(author))
-    tagged_friends = set(G.neighbors(tagged))
+    # Get friends of the author and tagged person
+    author_friends = set(graph.neighbors(author))
+    tagged_friends = set(graph.neighbors(tagged))
 
-    # Combine all unique friends and mutual friends
+    # Include both the author and the tagged person in the reach
     total_reach = author_friends | tagged_friends | {author, tagged}
-
     return len(total_reach), total_reach
 
 
-# Function to find the best person to tag
-def find_best_tag(G, user):
+def find_best_tag_bfs(graph, user):
     """
-    Finds the person whose tag maximizes the reach of the post,
-    counting mutual friends only once.
+    Finds the best person to tag to maximize reach using BFS.
     """
     max_reach = 0
     best_tagged = None
     best_reach_set = set()
 
-    for friend in G.neighbors(user):
-        reach, reach_set = calculate_total_reach(G, user, friend)
+    # Iterate through all neighbors of the user
+    for friend in graph.neighbors(user):
+        reach, reach_set = calculate_total_reach_bfs(graph, user, friend)
         if reach > max_reach:
             max_reach = reach
             best_tagged = friend
@@ -38,13 +36,12 @@ def find_best_tag(G, user):
     return best_tagged, max_reach, best_reach_set
 
 
-# Function to visualize the reach of the post
-def visualize_reach(G, user, tagged, reach_set):
+def visualize_reach(graph, user, tagged, reach_set):
     """
     Visualizes the subgraph containing the author, the tagged person,
     and the entire reach of the post.
     """
-    subgraph = G.subgraph(reach_set)
+    subgraph = graph.subgraph(reach_set)
     pos = nx.spring_layout(subgraph)
 
     plt.figure(figsize=(8, 8))
@@ -92,11 +89,11 @@ if __name__ == "__main__":
             print(f"User {user} not found in the network.")
             continue
 
-        best_tagged, max_reach, reach_set = find_best_tag(G, user)
+        best_tagged, max_reach, reach_set = find_best_tag_bfs(G, user)
         if best_tagged:
             print(f"Best person to tag: {best_tagged}")
             print(f"Maximum total reach: {max_reach}")
-            print(f"People who see the post: {', '.join(reach_set)}")
+            print(f"People who see the post: {', '.join(map(str, reach_set))}")
 
             # Optional visualization
             visualize_reach(G, user, best_tagged, reach_set)
