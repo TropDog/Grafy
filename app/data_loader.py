@@ -29,11 +29,14 @@ class DataLoader:
     def load_csv(self):
         """
         Loads data from a CSV file where each row represents a connection between two users.
+        Automatically detects and skips the header row if present.
 
         :return: List of dictionaries with keys "user" and "friend".
         """
         with open(self.file_path, 'r', encoding='utf-8') as file:
-            reader = csv.reader(file, delimiter=' ')
+            reader = list(csv.reader(file, delimiter=' '))
+            if len(reader) > 0 and reader[0] == ["user", "friend"]: #check if there is header
+                reader = reader[1:]
             return [{"user": row[0], "friend": row[1]} for row in reader]
 
     def convert_to_json(self, data):
@@ -51,20 +54,21 @@ class DataLoader:
 
         :param data: List of dictionaries with keys "user" and "friend".
         :return: Dictionary with two keys:
-                 - "nodes": List of unique users.
-                 - "edges": List of connections as dictionaries with keys "user" and "friend".
+                - "nodes": List of unique users (only users, not friends).
+                - "edges": List of connections as dictionaries with keys "user" and "friend".
         """
         nodes = []
         edges = []
 
-        unique_users = set()
-        for entry in data:
-            unique_users.add(entry["user"])
-            unique_users.add(entry["friend"])
-            edges.append({"user": entry["user"], "friend": entry["friend"]})
+        unique_users = set([entry["user"] for entry in data])
 
         for user in unique_users:
             nodes.append({"user": user})
+
+        nodes = sorted(nodes, key=lambda x: x["user"])
+
+        for entry in data:
+            edges.append({"user": entry["user"], "friend": entry["friend"]})
 
         return {
             "nodes": nodes,
