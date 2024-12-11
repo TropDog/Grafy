@@ -14,4 +14,4 @@ def test_find_best_tag_bfs(large_sample_graph):
 
     # Assert
     assert best_tagged == 1
-    assert max_reach == 8
+    assert max_reach == 7

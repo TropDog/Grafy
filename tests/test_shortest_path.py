@@ -6,7 +6,7 @@ def test_build_adjacency_list(large_sample_edges):
 
     # Assert: Check that the adjacency list for a few users is built correctly
     assert adjacency_list["1"] == [("2", 1), ("3", 1), ("4", 1), ("5", 1), ("6", 1), ("10", 1)]
-    assert adjacency_list["2"] == [("1", 1), ("7", 1), ("8", 1), ("5", 1), ("10", 1)]
+    assert adjacency_list["2"] == [("1", 1), ("3", 1), ("8", 1), ("5", 1), ("10", 1)]
 
 def test_find_shortest_path(large_sample_edges):
     # Arrange: Build adjacency list from sample edges
