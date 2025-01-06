@@ -35,6 +35,9 @@ jobs:
       - name: Run tests with coverage
         run: pytest --cov=. tests/
 
+      - name: Doumentation
+        run: mkdocs gh-deploy --force
+
       # Run linting with Super-Linter
       - name: Linting with Super-Linter
         uses: github/super-linter@v5
