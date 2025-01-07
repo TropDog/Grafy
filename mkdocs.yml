@@ -26,6 +26,23 @@ theme:
       primary: teal
       accent: lime
 
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            rendering:
+              show_signature: true
+              show_source: true
+
+nav:
+  - Start: index.md
+  - Usage: usage.md
+  - Tests: tests.md
+  - Data: data.md
+  - Workflows: workflows.md
+  - Requirements: requirements.md
 
 copyright: |
-  &copy; 2025 <a href="https://github.com/TropDog/Grafy"  target="_blank" rel="noopener">Baron.Pustelnik.Chmiel</a>
+  &copy; 2025 <a href="https://github.com/TropDog/Grafy" target="_blank" rel="noopener">Baron.Pustelnik.Chmiel</a>

@@ -1,8 +1,8 @@
-# Homepage
 
-For full documentation visit [mkdocs.org](https://www.mkdocs.org).
+# Social Network Analysis Project
 
-## Code Annotation Examples
+Welcome to the documentation for the Social Network Analysis Project!  
+Use the navigation tabs to explore different sections.
 
 ### Codeblocks
 
