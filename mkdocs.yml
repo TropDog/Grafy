@@ -44,7 +44,12 @@ nav:
       - Shortest Path: usage/shortest_path.md
       - Show Friends: usage/show_friends.md
       - Maximize Reach: usage/maximize_reach.md
-  - Tests: tests.md
+  - Tests:
+      - Introdution: tests.md
+      - Configuration Test: tests/conftest.md
+      - Data Loader Test: tests/test_data_loader.md
+      - Shortest Path Test: tests/test_shortest_path.md
+      - Maximize Reach Test: tests/test_maximize_reach.md
   - Data: data.md
   - Workflows: workflows.md
   - Requirements: requirements.md

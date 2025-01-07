@@ -1,3 +1,3 @@
 # Tests
 
-This section describes how to run tests for the project using `pytest`.
+This section describes how to run tests for the project.
