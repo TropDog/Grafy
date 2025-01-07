@@ -27,7 +27,7 @@ jobs:
 
     - name: Install dependencies
       run: |
-        pip install mkdocs mkdocstrings-python
+        pip install mkdocs mkdocs-material
 
     - name: Deploy to GitHub Pages
       run: |
