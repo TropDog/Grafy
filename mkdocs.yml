@@ -38,7 +38,12 @@ plugins:
 
 nav:
   - Start: index.md
-  - Usage: usage.md
+  - Usage:
+      - Introduction: usage.md
+      - Data Loader: usage/data_loader.md
+      - Shortest Path: usage/shortest_path.md
+      - Show Friends: usage/show_friends.md
+      - Maximize Reach: usage/maximize_reach.md
   - Tests: tests.md
   - Data: data.md
   - Workflows: workflows.md
